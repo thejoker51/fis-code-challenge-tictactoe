@@ -1,1 +1,1 @@
-# fis-code-challenge-tictactoe
+# Code Challenge Tic-Tac-Toe
