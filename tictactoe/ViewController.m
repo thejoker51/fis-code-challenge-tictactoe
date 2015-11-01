@@ -17,10 +17,22 @@
 
 - (void)viewDidLoad {
     player = 1;
-    titleLabel.text = @"Ready Player 1? Pick Your X";
-    
+    titleLabel.text = @"Welcome! X's go first!";
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)gameOver:(NSString *)playerMark {
+    
+    BOOL winner = [self checkWinner:playerMark];
+    
+    if (winner && player == 2) {
+        // if player one wins
+        titleLabel.text = @"Congratuations player X, you win!";
+    } else if (winner && player == 1) {
+        // if player two wins
+        titleLabel.text = @"Congratuations player O, you win!";
+    }
 }
 
 
@@ -30,22 +42,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)gameOver {
-    
-    if (turns == 9) {
-        titleLabel.text = @"Out of Turns! Game Over";
-        return YES;
-    }
-    
-    return NO;
-
-}
 
 -(BOOL)checkWinner:(NSString *)playerMark {
     
     NSString *Marker = playerMark;
     
-    if (
+    if (turns == 9) {
+        // CHECK TO SEE IF YOU'RE OUT OF TURNS
+        titleLabel.text = @"Out of Turns! Game Over";
+        return YES;
+    } else if (
         // CHECK HORIZONTALS
         ([button1.currentTitle isEqualToString:Marker] &&
           [button2.currentTitle isEqualToString:Marker] &&
@@ -92,6 +98,45 @@
     return NO;
 }
 
+- (void)Player {
+    
+    NSString *playerMark = @"";
+    NSString *titleText = @"";
+    
+    switch (player) {
+        case 1:
+            playerMark = [playerMark stringByAppendingString:@"O"];
+            titleText = [titleText stringByAppendingString:@"Ready Player 1? Pick Your X"];
+            break;
+        case 2:
+            playerMark = [playerMark stringByAppendingString:@"X"];
+            titleText = [titleText stringByAppendingString:@"Ready Player 2? Pick Your O"];
+            break;
+        default: exit(0);
+    }
+    
+    NSLog(@"playerMark: %@, titleText: %@", playerMark, titleText);
+    NSLog(@"winner? %d", [self checkWinner:playerMark]);
+    
+    if (![self checkWinner:playerMark]) {
+        switch (player) {
+            case 1:
+                titleLabel.text = titleText;
+                break;
+            case 2:
+                titleLabel.text = titleText;
+                break;
+            default:exit(0);
+        }
+    } else {
+        [self gameOver:playerMark];
+    }
+    
+    // [self gameOver:playerMark]
+    
+    
+}
+
 - (IBAction)buttonPress:(id)sender {
         
     UIButton *pressed = (UIButton *)sender;
@@ -101,14 +146,10 @@
         case 1:
             [pressed setTitle:@"X" forState:UIControlStateNormal];
             player = 2;
-            titleLabel.text = @"Ready Player 2? Pick Your O";
-            
             break;
         case 2:
             [pressed setTitle:@"O" forState:UIControlStateNormal];
             player = 1;
-            titleLabel.text = @"Ready Player 1? Pick Your X";
-            
             break;
             
         default: exit(0);
@@ -116,29 +157,10 @@
     
     // increment turns
     turns++;
+    [self Player];
     
-    BOOL checkGameOver = [self gameOver];
-    if (checkGameOver) {
-        // if the game is over
-    } else {
-        NSString *playerMark = @"";
-        if (player == 2) {
-            playerMark = [playerMark stringByAppendingString:@"X"];
-        } else {
-            playerMark = [playerMark stringByAppendingString:@"O"];
-        }
-        
-        BOOL winner = [self checkWinner:playerMark];
-        
-        if (winner && player == 2) {
-            titleLabel.text = @"Congratuations player X, you win!";
-        } else if (winner && player == 1) {
-            titleLabel.text = @"Congratuations player O, you win!";
-        }
-        
-    }
-    
-    
-    
-    }
+}
+
+
+
 @end
