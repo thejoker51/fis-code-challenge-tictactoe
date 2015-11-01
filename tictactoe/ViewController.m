@@ -13,27 +13,36 @@
 @end
 
 @implementation ViewController
-@synthesize player, titleLabel, turns, button1, button2, button3, button4, button5, button6, button7, button8, button9, playAgain;
+@synthesize player, titleLabel, turns, button1, button2, button3, button4, button5, button6, button7, button8, button9, playAgain, totalTurns;
 
 - (void)viewDidLoad {
     
     // initialize player, reset button, and title text
+    // total turns
     player = 1;
+    turns = 0;
+    totalTurns = 9;
     playAgain.hidden = YES;
     titleLabel.text = @"Welcome! X's go first!";
     
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)gameOver {
+- (void)gameOver:(NSUInteger)winCondition {
     
-    if (player == 2) {
+    if (winCondition == 3) {
+        // if turns have been exhausted
+        titleLabel.text = @"Out of Turns! Game Over";
+        playAgain.hidden = NO;
+    }
+    else if (winCondition == 2) {
         // if player one wins
         titleLabel.text = @"Congratuations player X, you win!";
-    } else if (player == 1) {
+        playAgain.hidden = NO;
+    } else if (winCondition == 1) {
         // if player two wins
         titleLabel.text = @"Congratuations player O, you win!";
+        playAgain.hidden = NO;
     }
     
     
@@ -49,13 +58,10 @@
 
 -(BOOL)checkWinner:(NSString *)playerMark {
     
+    // check win conditions
     NSString *Marker = playerMark;
     
-    if (turns == 9) {
-        // CHECK TO SEE IF YOU'RE OUT OF TURNS
-        titleLabel.text = @"Out of Turns! Game Over";
-        return YES;
-    } else if (
+    if (
         // CHECK HORIZONTALS
         ([button1.currentTitle isEqualToString:Marker] &&
           [button2.currentTitle isEqualToString:Marker] &&
@@ -104,10 +110,12 @@
 
 - (void)Player {
     
+    // initialize the variables for playerMark and titls
     NSString *playerMark = @"";
     NSString *titleText = @"";
     
     switch (player) {
+        // set the variables based on player number
         case 1:
             playerMark = [playerMark stringByAppendingString:@"O"];
             titleText = [titleText stringByAppendingString:@"Ready Player 1? Pick Your X"];
@@ -119,10 +127,14 @@
         default: exit(0);
     }
     
-    NSLog(@"playerMark: %@, titleText: %@", playerMark, titleText);
-    NSLog(@"winner? %d", [self checkWinner:playerMark]);
+    BOOL isThereAWinner = [self checkWinner:playerMark];
     
-    if (![self checkWinner:playerMark]) {
+    // if there isn't a winner and we totalTurn isn't
+    // exhausted
+    if (!isThereAWinner && turns < totalTurns) {
+        
+        // update the title text for the player's
+        // current turn
         switch (player) {
             case 1:
                 titleLabel.text = titleText;
@@ -132,9 +144,15 @@
                 break;
             default:exit(0);
         }
-    } else {
-        [self gameOver];
-        playAgain.hidden = NO;
+    }
+    else if (isThereAWinner) {
+        // If there is a winner, send the player number
+        [self gameOver:player];
+    }
+    else {
+        // if there isn't a winner and totalTurns are up
+        // send gameOver condition 3, out of turns
+        [self gameOver:3];
     }
     
     // [self gameOver:playerMark]
@@ -143,15 +161,22 @@
 }
 
 - (IBAction)buttonPress:(id)sender {
-        
+    
+    // create UIButton variable
+    // set the sender to enabled:NO, so value
+    // cannot be changed
     UIButton *pressed = (UIButton *)sender;
     [pressed setEnabled:NO];
     
     switch (player) {
+        // if player is 1, they're x's, update button title
+        // switch to player 2
         case 1:
             [pressed setTitle:@"X" forState:UIControlStateNormal];
             player = 2;
             break;
+        // if player is 2, they're o's, update button title
+        // switch to player 1
         case 2:
             [pressed setTitle:@"O" forState:UIControlStateNormal];
             player = 1;
@@ -162,6 +187,8 @@
     
     // increment turns
     turns++;
+    // check player method to update board
+    // check win conditions
     [self Player];
     
     
@@ -171,7 +198,19 @@
 
 - (IBAction)playAgain:(id)sender {
     
+    // build array of all button objects
+    // got this on Stack Overflow. Good stuff!
+    NSArray *buttons = [NSArray arrayWithObjects:button1, button2, button3, button4, button5, button6, button7, button8, button9, nil];
     
+    // loop through array and update the title to blank
+    // ste enabled to YES so that they're active
+    for (UIButton *button in buttons) {
+        [button setTitle:@"" forState:UIControlStateNormal];
+        [button setEnabled:YES];
+    }
+    
+    // reload view to reset the game
+    [self viewDidLoad];
     
     
 }
