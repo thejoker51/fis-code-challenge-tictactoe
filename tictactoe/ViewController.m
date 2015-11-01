@@ -13,12 +13,14 @@
 @end
 
 @implementation ViewController
-@synthesize player, titleLabel, turns, button1, button2, button3, button4, button5, button6, button7, button8, button9, playAgain, totalTurns;
+@synthesize player, titleLabel, turns, button1, button2, button3, button4, button5, button6, button7, button8, button9, playAgain, totalTurns, allButtons;
 
 - (void)viewDidLoad {
     
     // initialize player, reset button, and title text
     // total turns
+    allButtons = [NSArray arrayWithObjects:button1, button2, button3, button4, button5, button6, button7, button8, button9, nil];
+
     player = 1;
     turns = 0;
     totalTurns = 9;
@@ -29,6 +31,9 @@
 }
 
 - (void)gameOver:(NSUInteger)winCondition {
+    
+    // set all buttons to not enabled
+    [self lockBoard];
     
     if (winCondition == 3) {
         // if turns have been exhausted
@@ -194,13 +199,22 @@
     
 }
 
+-(void)lockBoard {
+    NSArray *buttons = [NSArray arrayWithArray:allButtons];
+    
+    for (UIButton *button in buttons) {
+        [button setEnabled:NO];
+    }
+}
+
 
 
 - (IBAction)playAgain:(id)sender {
     
     // build array of all button objects
     // got this on Stack Overflow. Good stuff!
-    NSArray *buttons = [NSArray arrayWithObjects:button1, button2, button3, button4, button5, button6, button7, button8, button9, nil];
+    NSArray *buttons = [NSArray arrayWithArray:allButtons];
+    
     
     // loop through array and update the title to blank
     // ste enabled to YES so that they're active

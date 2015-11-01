@@ -13,6 +13,7 @@
 @property int player;
 @property int turns;
 @property int totalTurns;
+@property NSArray *allButtons;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playAgain;
 
