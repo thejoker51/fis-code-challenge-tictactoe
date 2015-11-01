@@ -13,26 +13,30 @@
 @end
 
 @implementation ViewController
-@synthesize player, titleLabel, turns, button1, button2, button3, button4, button5, button6, button7, button8, button9;
+@synthesize player, titleLabel, turns, button1, button2, button3, button4, button5, button6, button7, button8, button9, playAgain;
 
 - (void)viewDidLoad {
+    
+    // initialize player, reset button, and title text
     player = 1;
+    playAgain.hidden = YES;
     titleLabel.text = @"Welcome! X's go first!";
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)gameOver:(NSString *)playerMark {
+- (void)gameOver {
     
-    BOOL winner = [self checkWinner:playerMark];
-    
-    if (winner && player == 2) {
+    if (player == 2) {
         // if player one wins
         titleLabel.text = @"Congratuations player X, you win!";
-    } else if (winner && player == 1) {
+    } else if (player == 1) {
         // if player two wins
         titleLabel.text = @"Congratuations player O, you win!";
     }
+    
+    
 }
 
 
@@ -129,7 +133,8 @@
             default:exit(0);
         }
     } else {
-        [self gameOver:playerMark];
+        [self gameOver];
+        playAgain.hidden = NO;
     }
     
     // [self gameOver:playerMark]
@@ -159,8 +164,15 @@
     turns++;
     [self Player];
     
+    
 }
 
 
 
+- (IBAction)playAgain:(id)sender {
+    
+    
+    
+    
+}
 @end

@@ -13,6 +13,7 @@
 @property int player;
 @property int turns;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *playAgain;
 
 - (IBAction)buttonPress:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *button1;
@@ -24,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *button7;
 @property (weak, nonatomic) IBOutlet UIButton *button8;
 @property (weak, nonatomic) IBOutlet UIButton *button9;
+- (IBAction)playAgain:(id)sender;
 
 @end
 

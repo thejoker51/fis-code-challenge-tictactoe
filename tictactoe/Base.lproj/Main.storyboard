@@ -140,6 +140,17 @@
                                     <action selector="buttonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JwD-fR-mQ9"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAJ-mW-8zm">
+                                <rect key="frame" x="85" y="368" width="139" height="35"/>
+                                <animations/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" red="1" green="0.32055628883478693" blue="0.91103778663988211" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Play Again?"/>
+                                <connections>
+                                    <action selector="playAgain:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yFG-9n-eyr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -154,6 +165,7 @@
                         <outlet property="button7" destination="Cmp-vh-ZTT" id="DLh-Qy-WfB"/>
                         <outlet property="button8" destination="vhC-NW-rSm" id="bFo-pe-qUu"/>
                         <outlet property="button9" destination="Qgf-In-4Sr" id="emV-Bf-ULq"/>
+                        <outlet property="playAgain" destination="pAJ-mW-8zm" id="CHZ-X7-MQQ"/>
                         <outlet property="titleLabel" destination="IFz-rM-GfI" id="kIr-Vo-ldw"/>
                     </connections>
                 </viewController>
